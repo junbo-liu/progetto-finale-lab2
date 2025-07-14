@@ -32,7 +32,6 @@ typedef struct {
 } rescuer_digital_twin_t;
 
 typedef struct {
-    rescuer_type_t *rescuer;
     rescuer_digital_twin_t *twin;
     int n;
 } rescuer_twin_t;

@@ -1,9 +1,9 @@
 #include "../scall.h"
-#include "../global_vars.h"
+#include "../data_struct.h"
 #define _XOPEN_SOURCE 700 // per strdup
 #define LENGTH_LINE 200
 #define LENG_TYPE 20
-int main(){
+int parse_emergency_types(){
     FILE *file;
     SNCALL(file, fopen("../config/emergency_types.conf", "r"), "durante fopen");
 
@@ -48,15 +48,8 @@ int main(){
             printf("tipo %s n %d t %d\n", tp_rs, n, t);
             // SNCALL(soccorritori[i].type, (rescuer_type_t*)malloc(sizeof(type_t)), "malloc rescuertype");
             // soccorritori[i].type->rescuer_type_name=strdup(tp_rs);  per test
-            for (int j = 0; j < rescuer_twin_count; j++)
-            {
-                if (strcmp(tp_rs, all_rescuer_twin[j].rescuer->rescuer_type_name) == 0)
-                {
-                    soccorritori[i].type = all_rescuer_twin[j].rescuer->rescuer_type_name;
-                    break;
-                }
-                
-            }
+            soccorritori[i].type = rescuer_search(tp_rs);
+            printf("trovato tipo %s\n", soccorritori[i].type);
             
             soccorritori[i].required_count=n;
             soccorritori[i].time_to_manage=t;

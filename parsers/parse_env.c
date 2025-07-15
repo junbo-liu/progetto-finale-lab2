@@ -1,20 +1,21 @@
 #include "../scall.h"
+#include "../data_struct.h"
+#include "parser.h"
 
-int main() {
+void parse_env() {
     FILE* file;
 
-    SNCALL(file, fopen("../config/env.conf", "r "), "errore durante open");
-    char q[100];
-    int h, w;
+    SNCALL(file, fopen("config/env.conf", "r "), "errore durante open");
     
-    if(fscanf(file, "queue=%[^\n]\nheight=%d\nwidth=%d", q, &h, &w))
-    {
-        printf("%s %d %d \n", q, h, w);
+    SNCALL(env, (env_t*)malloc(sizeof(env_t)), "malloc env");
+    SNCALL(env->queue, (char*)malloc(100 * sizeof(char)), "malloc queue name");
+
+    if (fscanf(file, "queue=%[^\n]\nheight=%d\nwidth=%d", env->queue, &env->height, &env->width) != 3) {
+        fprintf(stderr, "Errore nel parsing di env.conf\n");
+        exit(1);
     }
-    else 
-    {
-        printf("riga non valido");
-    }
+
+    printf("%s %d %d \n", env->queue, env->height, env->width);
     
     
 }

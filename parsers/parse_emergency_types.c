@@ -3,17 +3,23 @@
 #define _XOPEN_SOURCE 700 // per strdup
 #define LENGTH_LINE 200
 #define LENG_TYPE 20
-int parse_emergency_types(){
+void parse_emergency_types(){
     FILE *file;
-    SNCALL(file, fopen("../config/emergency_types.conf", "r"), "durante fopen");
+    SNCALL(file, fopen("config/emergency_types.conf", "r"), "durante fopen");
 
     char line[LENGTH_LINE], tp_rs[LENG_TYPE], tp_emg[LENG_TYPE], res[LENGTH_LINE];
     int prty, n, t;
     char *tok;
+
+    // inizializzo la lista di emergency_type_t
+    SNCALL(emerg_list, (emergency_nodo_t*)malloc(sizeof(emergency_nodo_t)), "malloc emerg_list");
+    emerg_list->head = NULL;
+    emerg_list->nest = NULL;
+
     while (fgets(line, LENGTH_LINE, file))
     {
         emergency_type_t *emergency;
-        SNCALL(emergency, (emergency_type_t*)malloc(sizeof(emergency_type_t*)), "malloc");
+        SNCALL(emergency, (emergency_type_t*)malloc(sizeof(emergency_type_t)), "malloc");
         line[strcspn(line, "\n")] = '\0';
         printf("%s\n",line);
         if (sscanf(line, "[%[^]]] [%d] %[^\n]", tp_emg, &prty, res) == 3)
@@ -49,7 +55,7 @@ int parse_emergency_types(){
             // SNCALL(soccorritori[i].type, (rescuer_type_t*)malloc(sizeof(type_t)), "malloc rescuertype");
             // soccorritori[i].type->rescuer_type_name=strdup(tp_rs);  per test
             soccorritori[i].type = rescuer_search(tp_rs);
-            printf("trovato tipo %s\n", soccorritori[i].type);
+            printf("trovato tipo %s\n", soccorritori[i].type->rescuer_type_name);
             
             soccorritori[i].required_count=n;
             soccorritori[i].time_to_manage=t;
@@ -59,6 +65,7 @@ int parse_emergency_types(){
 
         emergency->rescuers=soccorritori;
         emergency->rescuers_req_number=num_socc;
+        
         #ifdef debug
         for (i = 0; i < num_socc; i++)
         {

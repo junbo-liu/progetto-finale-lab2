@@ -1,30 +1,34 @@
-#include "scall.h"
+#pragma once
+#include "type.h"
 
 #define RESCUER_T_NUM 20
+
+
+extern env_t *env;
+
+
 typedef struct rescuer_node {
     rescuer_type_t *head;
     struct rescuer_node *next;
 } rescuer_node_t;
 
 // un hash table per i tipi di rescuers
-rescuer_node_t *all_rescuers[RESCUER_T_NUM];
+extern rescuer_node_t *all_rescuers[RESCUER_T_NUM];
 
-int hFunction(char *name){
-    return (atoi(name))%RESCUER_T_NUM;
-}
+int resc_hFunction(char *name);
 
-void rescuer_insect(rescuer_type_t *rescuer){
-    int key=hFunction(rescuer->rescuer_type_name);
-    rescuer_node_t *node;
-    SNCALL(node, (rescuer_node_t*)malloc(sizeof(rescuer_node_t)), "malloc node");
-    node->head = rescuer;
-    node->next = all_rescuers[key];
-    all_rescuers[key] = node;
-}
-rescuer_type_t* rescuer_search(char *name){
-    return all_rescuers[hFunction(name)];
-}
+void rescuer_insect(rescuer_type_t *rescuer);
 
-// extern rescuer_twin_t *all_twin;
-// extern int twin_count;
+rescuer_type_t* rescuer_search(char *name);
 
+// una lista di priorità per emergency type
+typedef struct emergency_node{
+    emergency_type_t *head;
+    struct emergency_node *next;
+}emergency_node_t;
+
+extern emergency_node_t *emerg_list;
+
+void emergency_insect(emergency_type_t *emrg);
+
+emergency_type_t *emergency_search();

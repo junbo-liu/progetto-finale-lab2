@@ -1,16 +1,16 @@
-#pragma once
 #include "../scall.h"
 #include "../data_struct.h"
+#include "parser.h"
 #define LENG_NAME 20
 #define LENG_LINE 60
-int parse_rescuers() {
+void parse_rescuers() 
+// int main() 
+{
     FILE* file;
 
-    SNCALL(file, fopen("../config/rescuers.conf", "r "), "errore durante open");
+    SNCALL(file, fopen("config/rescuers.conf", "r"), "errore durante open");
     
     memset(all_rescuers, 0, sizeof(all_rescuers));
-    // all_twin = NULL; // inizializzo 
-    // twin_count =0;
     char line[LENG_LINE], name[LENG_NAME];
     int num, speed, x, y;
     while (fgets(line, sizeof(line), file))
@@ -38,8 +38,8 @@ int parse_rescuers() {
                 dit[i].id = i;
                 dit[i].rescuer = rescuer;
                 dit[i].status = IDLE;
-                dit[i].x = x;
-                dit[i].y = y;
+                dit[i].x = 0;                   // all'inzio si trova in (0,0)
+                dit[i].y = 0;
             }
         }
         else printf("la riga non valido\n");

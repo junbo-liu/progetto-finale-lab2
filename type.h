@@ -4,9 +4,9 @@
 //ambiente
 typedef struct {
     char *queue;
-    int heith;
-    int wedth;
-}env;
+    int height;
+    int width;
+}env_t;
 
 
 // Stato dei soccorritori
@@ -30,11 +30,6 @@ typedef struct {
     rescuer_type_t *rescuer;
     rescuer_status_t status;
 } rescuer_digital_twin_t;
-
-typedef struct {
-    rescuer_digital_twin_t *twin;
-    int n;
-} rescuer_twin_t;
 
 
 // Richiesta di soccorso da parte di un'emergenza

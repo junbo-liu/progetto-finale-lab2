@@ -1,0 +1,4 @@
+Incendio 10 20 2
+Furto 5 8 1
+Alluvione 40 12 1
+Incendio 5 7 4

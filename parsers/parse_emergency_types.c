@@ -11,10 +11,8 @@ void parse_emergency_types(){
     int prty, n, t;
     char *tok;
 
-    // inizializzo la lista di emergency_type_t
-    SNCALL(emerg_list, (emergency_nodo_t*)malloc(sizeof(emergency_nodo_t)), "malloc emerg_list");
-    emerg_list->head = NULL;
-    emerg_list->nest = NULL;
+    // inizializzo la tabella hash di emergency_type_t
+    memset(all_emerg_type, 0, sizeof(all_emerg_type));   
 
     while (fgets(line, LENGTH_LINE, file))
     {

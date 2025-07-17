@@ -6,7 +6,7 @@ typedef struct {
     char *queue;
     int height;
     int width;
-}env_t;
+} env_t;
 
 
 // Stato dei soccorritori

@@ -3,7 +3,7 @@
 #include "parser.h"
 
 void parse_env() {
-    FILE* file;
+    FILE *file;
 
     SNCALL(file, fopen("config/env.conf", "r "), "errore durante open");
     

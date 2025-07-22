@@ -19,3 +19,4 @@
 #define MQCALL(c, e) do { if ((c) == SCALL_ERROR) { perror(e); exit(EXIT_FAILURE); } } while (0)
 #define PARENT_CHILD(pid, parent, child) do {if (pid == 0) { child; } else { parent; } } while (0)
 #define SCALLREAD(r, r_loop, w_loop, e) do { while ((r = r_loop) > 0) { w_loop; } if (r == SCALL_ERROR) { perror(e); exit(EXIT_FAILURE); } } while(0)
+#define FCLOSECALL(file) do { if (fclose(file) != 0) { perror("Attenzione: errore durante la chiusura del file di log"); } file = NULL; } while (0)

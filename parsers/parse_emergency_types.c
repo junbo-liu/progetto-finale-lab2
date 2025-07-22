@@ -1,34 +1,30 @@
 #include "../scall.h"
 #include "../data_struct.h"
-#define _XOPEN_SOURCE 700 // per strdup
 #define LENGTH_LINE 200
 #define LENG_TYPE 20
+#define DEBUG
 void parse_emergency_types(){
     FILE *file;
-    SNCALL(file, fopen("config/emergency_types.conf", "r"), "durante fopen");
+    SNCALL(file, fopen("config/emergency_types.conf", "r"), "Errore durante fopen di emergency_types.conf");
 
     char line[LENGTH_LINE], tp_rs[LENG_TYPE], tp_emg[LENG_TYPE], res[LENGTH_LINE];
     int prty, n, t;
     char *tok;
 
-    // inizializzo la tabella hash di emergency_type_t
-    memset(all_emerg_type, 0, sizeof(all_emerg_type));   
-
     while (fgets(line, LENGTH_LINE, file))
     {
         emergency_type_t *emergency;
-        SNCALL(emergency, (emergency_type_t*)malloc(sizeof(emergency_type_t)), "malloc");
+        SNCALL(emergency, (emergency_type_t*)malloc(sizeof(emergency_type_t)), "Errore malloc emergency");
         line[strcspn(line, "\n")] = '\0';
         printf("%s\n",line);
         if (sscanf(line, "[%[^]]] [%d] %[^\n]", tp_emg, &prty, res) == 3)
         {
-            printf("tipo di emg %s con priorità %d\trest %s\n", tp_emg, prty, res);
-            emergency->emergency_desc=strdup(tp_emg);
+            #ifdef DEBUG
+                printf("tipo di emg %s con priorità %d\trest %s\n", tp_emg, prty, res);
+            #endif
+            SNCALL(emergency->emergency_desc, (char*)malloc((1+strlen(tp_emg)) * sizeof(char)), "Errore malloc emergency desc");
+            strcpy(emergency->emergency_desc, tp_emg);
             emergency->priority=prty;
-            // printf("em prima %s \n",emergency->emergency_desc);
-            // strcpy(tp_emg,"esa");
-            // printf("%s",emergency->emergency_desc);
-            
         }
         // calcolo numero di tipi soccorritori necessari
         int i=0, num_socc=0;
@@ -44,32 +40,29 @@ void parse_emergency_types(){
         tok = strtok(res, ";");
         emergency->rescuers_req_number=0;
         rescuer_request_t *soccorritori;
-        SNCALL(soccorritori, (rescuer_request_t*)malloc(num_socc*sizeof(rescuer_request_t*)), "malloc");
+        SNCALL(soccorritori, (rescuer_request_t*)malloc(num_socc*sizeof(rescuer_request_t)), "Errore malloc soccorritori");
         i=0;
         while (tok != NULL)
         {   
             sscanf(tok, "%[^:]:%d,%d;", tp_rs, &n, &t);
             printf("tipo %s n %d t %d\n", tp_rs, n, t);
-            // SNCALL(soccorritori[i].type, (rescuer_type_t*)malloc(sizeof(type_t)), "malloc rescuertype");
+            // SNCALL(soccorritori[i].type, (rescuer_type_t*)malloc(sizeof(type_t)), "Errore malloc rescuertype");
             // soccorritori[i].type->rescuer_type_name=strdup(tp_rs);  per test
             soccorritori[i].type = rescuer_search(tp_rs);
-            printf("trovato tipo %s\n", soccorritori[i].type->rescuer_type_name);
+            #ifdef DEBUG
+            printf("trovato tipo nome %s, speed %d, x %d, y %d\n", soccorritori[i].type->rescuer_type_name, soccorritori[i].type->speed, soccorritori[i].type->x, soccorritori[i].type->y);
+            #endif
             
             soccorritori[i].required_count=n;
             soccorritori[i].time_to_manage=t;
-            tok =strtok(NULL, ";");
+            tok = strtok(NULL, ";");
             i++;
         }
 
-        emergency->rescuers=soccorritori;
-        emergency->rescuers_req_number=num_socc;
+        emergency->rescuers = soccorritori;
+        emergency->rescuers_req_number = num_socc;
         
-        #ifdef debug
-        for (i = 0; i < num_socc; i++)
-        {
-            printf("soccorritori: tipo %s, num %d, time %d\n", soccorritori[i].type->rescuer_type_name, soccorritori[i].required_count, soccorritori[i].time_to_manage);
-        }
-        #endif
+        emergency_insect(emergency);        // inserisco nell'array
     }
-    
+    FCLOSECALL(file);
 }

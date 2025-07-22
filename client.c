@@ -1,6 +1,6 @@
 #include "scall.h"
 #include "data_struct.h"
-#include "type.h"
+#include "parsers/parser.h"
 
 void send_msg(char *type, int x, int y, int delay, mqd_t mq){
     emergency_request_t *msg;
@@ -9,11 +9,27 @@ void send_msg(char *type, int x, int y, int delay, mqd_t mq){
     strcpy(msg->emergency_name, type);
     msg->x = x;
     msg->y = y;
-
+    msg->timestamp = time(NULL);
+    sleep(delay);
     printf("%s %d %d %d\n", msg->emergency_name, msg->x, msg->y, delay);
     // MQCALL(mq_send(mq, msg, sizeof(msg), 0), "mq send from client");
+    MQCALL(mq_send(mq, (char*)msg, sizeof(*msg), 0), "mq send from client");
+
 }
 int main(int argc, char *argv[]){
+    
+    parse_env();
+    // definire gli attributi e aprire message queue
+    mqd_t coda;
+    struct mq_attr attr;
+
+    attr.mq_flags = 0;
+    attr.mq_maxmsg = 30;
+    attr.mq_msgsize = MAX_SIZE_MSG;
+    attr.mq_curmsgs = 0;
+    
+    SCALL(coda, mq_open(env->queue, O_CREAT | O_RDWR, 0644, &attr), "Errore mq open");
+
     if (argc == 5)
     {
         send_msg(argv[1], atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), coda);

@@ -1,0 +1,45 @@
+[Fri Aug  8 19:19:05 2025] [env.conf] [PARSER_ENV] il file env.conf è aperto e inizia il parser
+[Fri Aug  8 19:19:05 2025] [env.conf] [PARSE_ENV] LETTURA DI RIGA 1: queue=emergenze672796
+
+[Fri Aug  8 19:19:05 2025] [env.conf] [PARSE_ENV] LETTURA DI RIGA 2: height=500
+
+[Fri Aug  8 19:19:05 2025] [env.conf] [PARSE_ENV] LETTURA DI RIGA 3: width=800
+[Fri Aug  8 19:19:05 2025] [env.conf] [PARSER_ENV] il parser di env.conf è completato
+[Fri Aug  8 19:19:05 2025] [rescuers.conf] [PARSER_RESCUERS] il file rescuers.conf è aperto e inizia il parser
+[Fri Aug  8 19:19:05 2025] [rescuers.conf] [PARSE_RESCUERS] LETTURA DI RIGA 1: [Pompieri][14][2][10;20]
+
+[Fri Aug  8 19:19:05 2025] [rescuers.conf] [PARSE_RESCUERS] LETTURA DI RIGA 2: [Ambulanza][20][3][30;40]
+
+[Fri Aug  8 19:19:05 2025] [rescuers.conf] [PARSE_RESCUERS] LETTURA DI RIGA 3: [Polizia][22][1][30;20]
+[Fri Aug  8 19:19:05 2025] [rescuers.conf] [PARSER_RESCUERS] il parser di rescuers.conf è completato
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] il file emergency_types.conf è aperto e inizia il parser
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] LETTURA DI RIGA 1: [Allagamento] [1] Pompieri:1,5;Ambulanza:1,2;Polizia:2,6;
+
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] LETTURA DI RIGA 2: [Incendio] [2] Pompieri:2,8;Ambulanza:2,1;
+
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] LETTURA DI RIGA 3: [Sommossa] [2] Polizia:3,8;Ambulanza:2,4;
+
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] LETTURA DI RIGA 4: [Furto] [0] Polizia:1,2;
+
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] LETTURA DI RIGA 5: [Omicidio] [2] Polizia:5,3;Ambulanza:4,2;
+[Fri Aug  8 19:19:05 2025] [emergency_types.conf] [PARSER_EMERGENCY_TYPES] il parser di emergency_types.conf è completato
+[Fri Aug  8 19:19:34 2025] [1] [MQ_RECEIVE] Incendio 10 20 2
+[Fri Aug  8 19:19:34 2025] [8] [MQ_RECEIVE] Omicidio 55 88 2
+[Fri Aug  8 19:19:34 2025] [2] [MQ_RECEIVE] Furto 5 8 1
+[Fri Aug  8 19:19:34 2025] [4] [MQ_RECEIVE] Sommossa 46 88 1
+[Fri Aug  8 19:19:34 2025] [5] [MQ_RECEIVE] Furto 45 87 2
+[Fri Aug  8 19:19:34 2025] [6] [MQ_RECEIVE] Alluvione 40 12 1
+[Fri Aug  8 19:19:34 2025] [7] [MQ_RECEIVE] Incendio 5 7 0
+[Fri Aug  8 19:19:34 2025] [9] [MQ_RECEIVE] Omicidio 474 565 2
+[Fri Aug  8 19:19:34 2025] [7] [CODIFICATORE] Incendio: Richiesta convalidata
+[Fri Aug  8 19:19:34 2025] [3] [MQ_RECEIVE] Allagamento 187 44 2
+[Fri Aug  8 19:19:35 2025] [2] [CODIFICATORE] Furto: Richiesta convalidata
+[Fri Aug  8 19:19:35 2025] [4] [CODIFICATORE] Sommossa: Richiesta convalidata
+[Fri Aug  8 19:19:35 2025] [6] [CODIFICATORE] Alluvione: questo tipo non trovato
+[Fri Aug  8 19:19:35 2025] [6] [CODIFICATORE] Alluvione: Richiesta non convalidata
+[Fri Aug  8 19:19:36 2025] [1] [CODIFICATORE] Incendio: Richiesta convalidata
+[Fri Aug  8 19:19:36 2025] [8] [CODIFICATORE] Omicidio: Richiesta convalidata
+[Fri Aug  8 19:19:36 2025] [5] [CODIFICATORE] Furto: Richiesta convalidata
+[Fri Aug  8 19:19:36 2025] [9] [CODIFICATORE] Omicidio: l'ordinata fuori range
+[Fri Aug  8 19:19:36 2025] [9] [CODIFICATORE] Omicidio: Richiesta non convalidata
+[Fri Aug  8 19:19:36 2025] [3] [CODIFICATORE] Allagamento: Richiesta convalidata

@@ -19,7 +19,8 @@ typedef struct {
     char *rescuer_type_name;
     int speed;
     int x;  // base x
-    int y;  // base y<
+    int y;  // base y
+    int n_instance;
 } rescuer_type_t;
 
 // Istanza soccorritore (digital twin)
@@ -45,6 +46,7 @@ typedef struct {
     char *emergency_desc;
     rescuer_request_t *rescuers;
     int rescuers_req_number;
+    int rescuer_types_req_number;
 } emergency_type_t;
 
 // Richiesta grezza dalla coda
@@ -64,6 +66,7 @@ typedef struct {
     emergency_type_t type;
     emergency_status_t status;
     int x, y;
+    int id;
     time_t time;
     int rescuer_count;
     rescuer_digital_twin_t *rescuers_dt;

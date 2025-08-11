@@ -44,9 +44,9 @@ typedef struct {
 typedef struct {
     short priority;
     char *emergency_desc;
-    rescuer_request_t *rescuers;
-    int rescuers_req_number;
-    int rescuer_types_req_number;
+    rescuer_request_t *rescuers;  // array di soccorritori richiesti
+    int rescuers_req_number;        // numero di istanze di soccorritori richiesti
+    int rescuer_types_req_number;   // numero di tipi di soccorritori richiesti
 } emergency_type_t;
 
 // Richiesta grezza dalla coda

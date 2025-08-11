@@ -106,7 +106,7 @@ void scrivi_sul_file_log_cambio_di_emerg(file_log_t *file_log_struct, int id, ch
     char *time_str = ctime(&now);
     time_str[strcspn(time_str, "\n")] = '\0';
     
-    SCALL(ret, fprintf(file_log_struct->file_log, "[%s] [%d] [%s] %s emergenza cambia stato da %s a %s\n", time_str, id, evento, arr_stati_emerg[stato_pre], arr_stati_emerg[stato_succ]), "Errore fprint con cambio_di_emerg");
+    SCALL(ret, fprintf(file_log_struct->file_log, "[%s] [%d] [%s] emergenza cambia stato da %s a %s\n", time_str, id, evento, arr_stati_emerg[stato_pre], arr_stati_emerg[stato_succ]), "Errore fprint con cambio_di_emerg");
     fflush(file_log_struct->file_log);
     mtx_unlock(&file_log_struct->lock);
 }
@@ -119,7 +119,7 @@ void scrivi_sul_file_log_cambio_di_socc(file_log_t *file_log_struct, int id, cha
     char *time_str = ctime(&now);
     time_str[strcspn(time_str, "\n")] = '\0';
     
-    SCALL(ret, fprintf(file_log_struct->file_log, "[%s] [%d] [%s] %s soccorritore cambia stato da %s a %s\n", time_str, id, evento, arr_stati_ist_socc[stato_pre], arr_stati_ist_socc[stato_succ]), "Errore fprint con cambio_di_socc");
+    SCALL(ret, fprintf(file_log_struct->file_log, "[%s] [%d] [%s] soccorritore cambia stato da %s a %s\n", time_str, id, evento, arr_stati_ist_socc[stato_pre], arr_stati_ist_socc[stato_succ]), "Errore fprint con cambio_di_socc");
     fflush(file_log_struct->file_log);
     mtx_unlock(&file_log_struct->lock);
 }
@@ -132,7 +132,7 @@ void scrivi_sul_file_log_TIMEOUT(file_log_t *file_log_struct, int id, char *even
     char *time_str = ctime(&now);
     time_str[strcspn(time_str, "\n")] = '\0';
     
-    SCALL(ret, fprintf(file_log_struct->file_log, "[%s] [%d] [%s] %s soccorritore è andato in TIMEOUT per %s\n", time_str, id, evento, msg), "Errore fprint con TIMEOUT");
+    SCALL(ret, fprintf(file_log_struct->file_log, "[%s] [%d] [%s] soccorritore è andato in TIMEOUT per %s\n", time_str, id, evento, msg), "Errore fprint con TIMEOUT");
     fflush(file_log_struct->file_log);
     mtx_unlock(&file_log_struct->lock);
 }

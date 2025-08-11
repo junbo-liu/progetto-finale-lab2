@@ -96,8 +96,8 @@ void parse_rescuers(rescuer_type_t **rescuer_types, int *n_rescuer_types, rescue
                 dtwin->id = i + 1;
                 dtwin->rescuer = rescuer;
                 dtwin->status = IDLE;
-                dtwin->x = 0;                   // all'inizio si trova in (0,0)
-                dtwin->y = 0;
+                dtwin->x = x;                
+                dtwin->y = y;
 
                 (*n_rescuers)++;
 

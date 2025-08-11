@@ -25,7 +25,7 @@ void free_coda_emergenze(coda_emergenze_t *coda){
     // libero la coda se non è vuota
     while (coda->front != NULL)
     {
-        free_coda_emergenze(get_coda_emergenze(coda));
+        free_coda_emergenze(get_from_coda_emergenze(coda));
     }
     
     SCALL(ret, sem_destroy(&coda->num_elem), "Errore sem_destroy di num_elem");

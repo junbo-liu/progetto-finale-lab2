@@ -1,21 +1,6 @@
 #include "macro.h"
 #include "data_struct.h"
 #include "type.h"
-/*
-void send_msg(char *type, int x, int y, int delay, mqd_t mq){
-    emergency_request_t *emerg_ric;
-    SNCALL(emerg_ric, (emergency_request_t*)malloc(sizeof(emergency_request_t)), "malloc emerg_ric struct from client");
-
-    strcpy(emerg_ric->emergency_name, type);
-    emerg_ric->x = x;
-    emerg_ric->y = y;
-    time(&emerg_ric->timestamp);
-    sleep(delay);
-    printf("invio: %s %d %d %d\n", emerg_ric->emergency_name, emerg_ric->x, emerg_ric->y, delay);
-    MQCALL(mq_send(mq, (char*)emerg_ric, sizeof(emergency_request_t), 0), "mq send from client");
-
-}
-*/
 
 int main(int argc, char *argv[]){
     // variabile ausiliare
@@ -41,10 +26,15 @@ int main(int argc, char *argv[]){
 
     strcpy(shm_msg, (char*)ptr_shrd);
     
+    
+//   shrd_msg_t *ptr_shrd;
+//   MMAPCALL(ptr_shrd, mmap(NULL, SHM_SIZE, PROT_WRITE | PROT_READ, MAP_SHARED, fd_mem, 0), "Errore mmap");
+
     // // ottengo il pid del server per mandare un segnale quando finisce 
-    // pid_t server_pid;
-    // memcpy(&server_pid, (char*)ptr_shrd + strlen(shm_msg) + 1, sizeof(pid_t));
-    // printf("pid del server %d\n", server_pid);
+//   strcpy(shm_msg, ptr_shrd->queue);
+    // printf("pid del server %d\n", ptr_shrd->server_pid);
+    // Questo modo mi da errore di Segmentation fault
+
     // chiusura della sharing memory
      SCALL(ret, munmap(ptr_shrd, SHM_SIZE), "Errore munmap");
     SCALL(ret, close(fd_mem), "Errore close fd_mem");
@@ -54,7 +44,6 @@ int main(int argc, char *argv[]){
     
     if (argc == 5)
     {
-        // send_msg(argv[1], atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), coda);
         
         for (int i = 1; i < 4; i++)
         {
@@ -70,13 +59,7 @@ int main(int argc, char *argv[]){
     {
         FILE *file;
         SNCALL(file, fopen(argv[2], "r"), "Errore fopen from client.c");
-        // char type[30];
-        // int x, y, delay;
-
-        // while (fscanf(file, "%s %d %d %d", type, &x, &y, &delay) == 4)
-        // {
-        //     send_msg(type, x, y, delay, coda);
-        // }
+       
         
         while (fgets(msg, MAX_SIZE_MSG, file))
         {
@@ -90,7 +73,7 @@ int main(int argc, char *argv[]){
         fprintf(stderr, "Uso: ./client <nome> <x> <y> <delay> oppure ./client -f file.txt\n");
         exit(1);
     }
-    // SCALL(ret, kill(server_pid, SIGUSR1), "Errore kill");
+    // SCALL(ret, kill(ptr_shrd->server_pid, SIGUSR1), "Errore kill");
     SCALL(ret, mq_close(coda), "Errore mq_close");
     // SCALL(ret, )
     return 0;

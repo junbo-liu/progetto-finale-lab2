@@ -77,6 +77,11 @@ int main(){
 
   strcpy((char*)ptr_shrd, env_data.queue);
 
+  // shrd_msg_t *ptr_shrd;
+  // MMAPCALL(ptr_shrd, mmap(NULL, SHM_SIZE, PROT_WRITE | PROT_READ, MAP_SHARED, fd_mem, 0), "Errore mmap");
+
+  // strcpy(ptr_shrd->queue, env_data.queue);
+  // ptr_shrd->server_pid = getpid();
 
   // definire gli attributi e aprire message queue
   mqd_t mq;
